@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainBlooms - Fruit From Thought</title>
+    <style>
+        :root {
+            --primary-color: #6a8caf;
+            --secondary-color: #f4a261;
+            --dark-bg: #fcfbf7;
+            --light-text: #2b3a42;
+            --gray-text: #5a6d77;
+            --accent-color: #7fae91;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        header {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: var(--transition);
+        }
+        
+        header.scrolled {
+            background-color: rgba(249, 249, 249, 0.95);
+            box-shadow: 0 2px 10px rgba(93, 120, 255, 0.2);
+            padding: 1rem 2rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light-text);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .mobile-nav-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+            margin-left: 10%;
+            position: relative;
+            z-index: 2;
+            background-color: rgba(252, 251, 247, 0.8);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray-text);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(45, 211, 111, 0.3);
+            background-color: #25bb5f;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            margin-left: 1rem;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 10px 20px rgba(93, 120, 255, 0.3);
+        }
+        
+        .hero-visual {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .atomic-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: float 20s infinite linear;
+        }
+        
+        .proton {
+            background-color: rgba(244, 162, 97, 0.6);
+            box-shadow: 0 0 15px rgba(244, 162, 97, 0.4);
+        }
+        
+        .neutron {
+            background-color: rgba(160, 160, 160, 0.6);
+            box-shadow: 0 0 15px rgba(160, 160, 160, 0.4);
+        }
+        
+        .electron {
+            background-color: rgba(106, 140, 175, 0.6);
+            box-shadow: 0 0 20px rgba(106, 140, 175, 0.5);
+            animation: orbit 15s infinite linear;
+        }
+        
+        .quark {
+            background-color: rgba(255, 193, 134, 0.7);
+            box-shadow: 0 0 12px rgba(255, 193, 134, 0.5);
+            animation: quarkPulse 3s infinite alternate;
+        }
+        
+        .quantum-wave {
+            position: absolute;
+            background: linear-gradient(90deg, 
+                rgba(106, 140, 175, 0) 0%, 
+                rgba(106, 140, 175, 0.2) 50%, 
+                rgba(106, 140, 175, 0) 100%);
+            height: 2px;
+            border-radius: 1px;
+            transform-origin: center;
+            animation: waveFluctuation 8s infinite ease-in-out;
+            opacity: 0.4;
+        }
+        
+        .quantum-cloud {
+            position: absolute;
+            background: radial-gradient(ellipse at center, 
+                rgba(127, 174, 145, 0.15) 0%, 
+                rgba(127, 174, 145, 0.05) 70%, 
+                rgba(127, 174, 145, 0) 100%);
+            border-radius: 50%;
+            animation: cloudPulse 10s infinite alternate;
+            opacity: 0.3;
+        }
+        
+        .boson {
+            position: absolute;
+            background: radial-gradient(circle at center, 
+                rgba(255, 255, 255, 0.9) 0%, 
+                rgba(255, 255, 255, 0) 100%);
+            width: 3px;
+            height: 3px;
+            animation: bosonFlash 4s infinite;
+        }
+        
+        @keyframes quarkPulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0.9;
+            }
+        }
+        
+        @keyframes waveFluctuation {
+            0%, 100% {
+                transform: scaleX(0.8) scaleY(1);
+                opacity: 0.2;
+            }
+            25% {
+                transform: scaleX(1.2) scaleY(1.5);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scaleX(0.9) scaleY(0.8);
+                opacity: 0.3;
+            }
+            75% {
+                transform: scaleX(1.1) scaleY(1.2);
+                opacity: 0.4;
+            }
+        }
+        
+        @keyframes cloudPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.2;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.2;
+            }
+        }
+        
+        @keyframes bosonFlash {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            5% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+            10% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            55% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+            60% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+        
+        .orbital-path {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .atom-core {
+            position: absolute;
+            animation: float 30s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(-30px, 20px);
+            }
+            50% {
+                transform: translate(10px, -15px);
+            }
+            75% {
+                transform: translate(25px, 5px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+        
+        @keyframes orbit {
+            0% {
+                transform: rotate(0deg) translateX(50px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(50px) rotate(-360deg);
+            }
+        }
+        
+        /* New Showcase Carousel Styles */
+        .showcase {
+            padding: 5rem 2rem;
+            text-align: center;
+            background-color: #f7f4ed;
+        }
+        
+        .carousel-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 2rem auto;
+            overflow: hidden;
+        }
+        
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 2rem;
+            padding: 1rem 0.5rem;
+        }
+        
+        .carousel-item {
+            min-width: calc(25% - 1.5rem);
+            flex: 0 0 calc(25% - 1.5rem);
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(93, 120, 255, 0.1);
+            transition: var(--transition);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(93, 120, 255, 0.2);
+        }
+        
+        .product-placeholder {
+            height: 200px;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-placeholder::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .product-placeholder::after {
+            opacity: 1;
+        }
+        
+        .product-card h3 {
+            margin: 1rem 0 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .product-card p {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .carousel-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .prev-btn {
+            left: 10px;
+        }
+        
+        .next-btn {
+            right: 10px;
+        }
+        
+        @media (max-width: 992px) {
+            .carousel-item {
+                min-width: calc(33.333% - 1.33rem);
+                flex: 0 0 calc(33.333% - 1.33rem);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .carousel-item {
+                min-width: calc(50% - 1rem);
+                flex: 0 0 calc(50% - 1rem);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .carousel-item {
+                min-width: calc(100% - 1rem);
+                flex: 0 0 calc(100% - 1rem);
+            }
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray-text);
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            padding: 2rem;
+            border-radius: 10px;
+            background-color: #ffffff;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(93, 120, 255, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card p {
+            color: var(--gray-text);
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(106, 140, 175, 0.1) 0%, rgba(244, 162, 97, 0.1) 100%);
+            margin: 0 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(106, 140, 175, 0.2);
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            color: var(--gray-text);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background-color: #f7f4ed;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: var(--gray-text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(106, 140, 175, 0.2);
+            color: var(--gray-text);
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content {
+                margin-left: 5%;
+                max-width: 500px;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-visual {
+                width: 45%;
+            }
+            
+            .geometric-shape {
+                width: 350px;
+                height: 350px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-bg);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 0;
+                text-align: center;
+                padding: 1rem 0;
+            }
+            
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-content {
+                margin: 0 auto;
+                padding: 0 1rem;
+                max-width: 100%;
+                margin-top: 30%;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-visual {
+                position: relative;
+                width: 100%;
+                height: 50vh;
+                margin-top: 2rem;
+            }
+            
+            .geometric-shape {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .footer-column {
+                flex: 100%;
+                min-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <a href="#" class="logo">Brain<span>Blooms</span></a>
+        <button class="mobile-nav-toggle" id="navToggle">☰</button>
+                    <nav>
+            <ul id="navMenu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Fruit From Thought.</h1>
+                <p>Explore our collection of beautifully crafted 3D printed products where creativity meets functionality.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-outline">View Collections</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="atomic-animation">
+                    <!-- Atom 1 -->
+                    <div class="atom-core" style="top: 30%; left: 70%;">
+                        <div class="orbital-path" style="width: 120px; height: 120px; top: -60px; left: -60px;"></div>
+                        <div class="orbital-path" style="width: 180px; height: 180px; top: -90px; left: -90px; transform: rotate(30deg);"></div>
+                        <div class="particle proton" style="width: 15px; height: 15px; top: -5px; left: -5px;"></div>
+                        <div class="particle neutron" style="width: 14px; height: 14px; top: 2px; left: 3px;"></div>
+                        <div class="particle quark" style="width: 5px; height: 5px; top: -2px; left: -8px;"></div>
+                        <div class="particle quark" style="width: 4px; height: 4px; top: 6px; left: -3px;"></div>
+                        <div class="particle electron" style="width: 6px; height: 6px; animation: orbit 10s infinite linear; transform-origin: 0 0;"></div>
+                        <div class="particle electron" style="width: 5px; height: 5px; animation: orbit 15s infinite linear reverse; transform-origin: 0 0; animation-delay: 1s;"></div>
+                        <div class="particle electron" style="width: 4px; height: 4px; animation: orbit 12s infinite linear; transform-origin: 0 0; animation-delay: 2s;"></div>
+                        <div class="quantum-cloud" style="width: 100px; height: 100px; top: -50px; left: -50px;"></div>
+                    </div>
+                    
+                    <!-- Atom 2 -->
+                    <div class="atom-core" style="top: 60%; left: 30%; animation-delay: 2s;">
+                        <div class="orbital-path" style="width: 140px; height: 140px; top: -70px; left: -70px; transform: rotate(60deg);"></div>
+                        <div class="orbital-path" style="width: 200px; height: 200px; top: -100px; left: -100px; transform: rotate(45deg);"></div>
+                        <div class="particle proton" style="width: 18px; height: 18px; top: -6px; left: -8px;"></div>
+                        <div class="particle proton" style="width: 16px; height: 16px; top: 4px; left: -2px;"></div>
+                        <div class="particle neutron" style="width: 17px; height: 17px; top: 0px; left: 6px;"></div>
+                        <div class="particle quark" style="width: 6px; height: 6px; top: -10px; left: -3px;"></div>
+                        <div class="particle quark" style="width: 4px; height: 4px; top: 8px; left: 5px;"></div>
+                        <div class="particle electron" style="width: 7px; height: 7px; animation: orbit 12s infinite linear; transform-origin: 0 0;"></div>
+                        <div class="particle electron" style="width: 6px; height: 6px; animation: orbit 18s infinite linear reverse; transform-origin: 0 0; animation-delay: 3s;"></div>
+                        <div class="particle electron" style="width: 5px; height: 5px; animation: orbit 14s infinite linear; transform-origin: 0 0; animation-delay: 1.5s;"></div>
+                        <div class="quantum-cloud" style="width: 120px; height: 120px; top: -60px; left: -60px; animation-delay: 2s;"></div>
+                    </div>
+                    
+                    <!-- Atom 3 -->
+                    <div class="atom-core" style="top: 25%; left: 25%; animation-delay: 1s;">
+                        <div class="orbital-path" style="width: 100px; height: 100px; top: -50px; left: -50px; transform: rotate(15deg);"></div>
+                        <div class="orbital-path" style="width: 160px; height: 160px; top: -80px; left: -80px;"></div>
+                        <div class="particle proton" style="width: 14px; height: 14px; top: -7px; left: 0px;"></div>
+                        <div class="particle neutron" style="width: 13px; height: 13px; top: 5px; left: -4px;"></div>
+                        <div class="particle quark" style="width: 5px; height: 5px; top: -3px; left: 5px;"></div>
+                        <div class="particle electron" style="width: 5px; height: 5px; animation: orbit 9s infinite linear; transform-origin: 0 0;"></div>
+                        <div class="particle electron" style="width: 4px; height: 4px; animation: orbit 14s infinite linear reverse; transform-origin: 0 0; animation-delay: 2s;"></div>
+                        <div class="quantum-cloud" style="width: 90px; height: 90px; top: -45px; left: -45px; animation-delay: 1.5s;"></div>
+                    </div>
+                    
+                    <!-- Atom 4 (New) -->
+                    <div class="atom-core" style="top: 70%; left: 75%; animation-delay: 3s;">
+                        <div class="orbital-path" style="width: 110px; height: 110px; top: -55px; left: -55px; transform: rotate(75deg);"></div>
+                        <div class="orbital-path" style="width: 170px; height: 170px; top: -85px; left: -85px; transform: rotate(20deg);"></div>
+                        <div class="particle proton" style="width: 16px; height: 16px; top: -5px; left: -5px;"></div>
+                        <div class="particle neutron" style="width: 15px; height: 15px; top: 3px; left: 1px;"></div>
+                        <div class="particle quark" style="width: 5px; height: 5px; top: -8px; left: 2px;"></div>
+                        <div class="particle electron" style="width: 6px; height: 6px; animation: orbit 11s infinite linear; transform-origin: 0 0;"></div>
+                        <div class="particle electron" style="width: 5px; height: 5px; animation: orbit 16s infinite linear reverse; transform-origin: 0 0; animation-delay: 2.5s;"></div>
+                        <div class="quantum-cloud" style="width: 100px; height: 100px; top: -50px; left: -50px; animation-delay: 3.5s;"></div>
+                    </div>
+                    
+                    <!-- Free-floating particles -->
+                    <div class="particle proton" style="width: 10px; height: 10px; top: 40%; left: 45%; animation: float 25s infinite ease-in-out;"></div>
+                    <div class="particle neutron" style="width: 12px; height: 12px; top: 75%; left: 65%; animation: float 28s infinite ease-in-out reverse;"></div>
+                    <div class="particle electron" style="width: 6px; height: 6px; top: 15%; left: 55%; animation: float 15s infinite ease-in-out;"></div>
+                    <div class="particle proton" style="width: 11px; height: 11px; top: 85%; left: 15%; animation: float 30s infinite ease-in-out;"></div>
+                    <div class="particle electron" style="width: 5px; height: 5px; top: 35%; left: 80%; animation: float 18s infinite ease-in-out reverse;"></div>
+                    <div class="particle neutron" style="width: 9px; height: 9px; top: 65%; left: 90%; animation: float 22s infinite ease-in-out;"></div>
+                    <div class="particle electron" style="width: 4px; height: 4px; top: 20%; left: 40%; animation: float 20s infinite ease-in-out;"></div>
+                    <div class="particle neutron" style="width: 8px; height: 8px; top: 50%; left: 10%; animation: float 24s infinite ease-in-out reverse;"></div>
+                    <div class="particle proton" style="width: 9px; height: 9px; top: 75%; left: 50%; animation: float 26s infinite ease-in-out;"></div>
+                    <div class="particle electron" style="width: 4px; height: 4px; top: 10%; left: 30%; animation: float 17s infinite ease-in-out reverse;"></div>
+                    <div class="particle quark" style="width: 7px; height: 7px; top: 45%; left: 60%; animation: float 19s infinite ease-in-out;"></div>
+                    <div class="particle quark" style="width: 6px; height: 6px; top: 25%; left: 85%; animation: float 21s infinite ease-in-out reverse;"></div>
+                    <div class="particle quark" style="width: 5px; height: 5px; top: 90%; left: 25%; animation: float 23s infinite ease-in-out;"></div>
+                    
+                    <!-- Quantum waves -->
+                    <div class="quantum-wave" style="width: 200px; top: 40%; left: 20%; transform: rotate(15deg);"></div>
+                    <div class="quantum-wave" style="width: 250px; top: 60%; left: 40%; transform: rotate(-20deg); animation-delay: 1s;"></div>
+                    <div class="quantum-wave" style="width: 180px; top: 20%; left: 60%; transform: rotate(30deg); animation-delay: 2s;"></div>
+                    <div class="quantum-wave" style="width: 220px; top: 80%; left: 30%; transform: rotate(-10deg); animation-delay: 3s;"></div>
+                    <div class="quantum-wave" style="width: 170px; top: 30%; left: 70%; transform: rotate(5deg); animation-delay: 1.5s;"></div>
+                    
+                    <!-- Bosons (force carrier particles) -->
+                    <div class="boson" style="top: 35%; left: 25%; animation-delay: 0.5s;"></div>
+                    <div class="boson" style="top: 45%; left: 75%; animation-delay: 1.5s;"></div>
+                    <div class="boson" style="top: 65%; left: 40%; animation-delay: 2.5s;"></div>
+                    <div class="boson" style="top: 25%; left: 55%; animation-delay: 3.5s;"></div>
+                    <div class="boson" style="top: 75%; left: 60%; animation-delay: 0.2s;"></div>
+                    <div class="boson" style="top: 15%; left: 35%; animation-delay: 1.2s;"></div>
+                    <div class="boson" style="top: 55%; left: 20%; animation-delay: 2.2s;"></div>
+                    <div class="boson" style="top: 85%; left: 80%; animation-delay: 3.2s;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Showcase Carousel Section -->
+        <section class="showcase">
+            <h2 class="section-title">Featured Creations</h2>
+            <div class="carousel-container">
+                <div class="carousel">
+                    <div class="carousel-item">
+                        <div class="product-card">
+                            <div class="product-placeholder"></div>
+                            <h3>Viola Golf</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="product-card">
+                            <div class="product-placeholder"></div>
+                            <h3>Desktop Organizer</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="product-card">
+                            <div class="product-placeholder"></div>
+                            <h3>Artistic Lamp Shade</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="product-card">
+                            <div class="product-placeholder"></div>
+                            <h3>Custom Keycaps</h3>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev-btn">❮</button>
+                <button class="carousel-btn next-btn">❯</button>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <h2 class="section-title">What's On Your Mind?</h2>
+            <p class="section-subtitle">Discover our unique collection of 3D printed products that blend artistry with functionality.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Custom 3D Prints</h3>
+                    <p>Unique, high-quality 3D printed products crafted with attention to detail and designed for both style and function.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Innovative Designs</h3>
+                    <p>Creative solutions to everyday challenges through thoughtfully designed 3D printed products.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Bespoke Creations</h3>
+                    <p>Custom designed products that can be tailored to your specific needs and preferences.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta">
+            <h2>From mind to matter.</h2>
+            <p>Browse our collection of 3D printed creations – where every product is a fruit of creative thought.</p>
+            <a href="#" class="btn">Shop Collection</a>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>Our Products</h4>
+                <ul>
+                    <li><a href="#">Home Decor</a></li>
+                    <li><a href="#">Functional Items</a></li>
+                    <li><a href="#">Custom Designs</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Process</a></li>
+                    <li><a href="#">Materials</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 BrainBlooms.us By Jerrod Allen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile navigation toggle
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                    }
+                }
+            });
+        });
+        
+        // Create subtle atomic interactions
+        window.addEventListener('mousemove', (e) => {
+            const electrons = document.querySelectorAll('.electron');
+            const protons = document.querySelectorAll('.proton');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Add subtle electron speed change based on cursor position
+            electrons.forEach(electron => {
+                const currentDuration = parseFloat(electron.style.animationDuration) || 10;
+                const newDuration = currentDuration + (x - 0.5) * 2;
+                electron.style.animationDuration = `${Math.max(5, Math.min(20, newDuration))}s`;
+            });
+            
+            // Add subtle glow effect to protons when cursor is nearby
+            protons.forEach(proton => {
+                const protonRect = proton.getBoundingClientRect();
+                const centerX = protonRect.left + protonRect.width / 2;
+                const centerY = protonRect.top + protonRect.height / 2;
+                
+                const distance = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
+                const maxDistance = 300;
+                
+                if (distance < maxDistance) {
+                    const intensity = 1 - (distance / maxDistance);
+                    proton.style.boxShadow = `0 0 ${15 + intensity * 15}px rgba(255, 126, 95, ${0.4 + intensity * 0.4})`;
+                }
+            });
+        });
+        
+        // Carousel functionality
+        const carousel = document.querySelector('.carousel');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        
+        let currentIndex = 0;
+        const itemsPerView = window.innerWidth < 480 ? 1 : window.innerWidth < 768 ? 2 : window.innerWidth < 992 ? 3 : 4;
+        const totalItems = carouselItems.length;
+        
+        function updateCarousel() {
+            const itemWidth = carouselItems[0].offsetWidth + 32; // Adding the gap
+            carousel.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        }
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < totalItems - itemsPerView) {
+                currentIndex++;
+                updateCarousel();
+            } else {
+                // Loop back to start
+                currentIndex = 0;
+                updateCarousel();
+            }
+        });
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            } else {
+                // Loop to end
+                currentIndex = totalItems - itemsPerView;
+                updateCarousel();
+            }
+        });
+        
+        // Update carousel on window resize
+        window.addEventListener('resize', () => {
+            // Recalculate itemsPerView
+            const newItemsPerView = window.innerWidth < 480 ? 1 : window.innerWidth < 768 ? 2 : window.innerWidth < 992 ? 3 : 4;
+            
+            // Adjust currentIndex if needed
+            if (currentIndex > totalItems - newItemsPerView) {
+                currentIndex = Math.max(0, totalItems - newItemsPerView);
+            }
+            
+            // Update carousel
+            updateCarousel();
+        });
+        
+        // Initialize carousel
+        updateCarousel();
+    </script>
+</body>
+</html>
